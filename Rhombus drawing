@@ -3,15 +3,10 @@ DECLARE
    n NUMBER := -15;
 
    i NUMBER;
-
    j NUMBER;
-
    k NUMBER;
-
    r NUMBER;
-
    p NUMBER;
-
    q NUMBER;
 
 BEGIN
