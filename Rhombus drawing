@@ -1,6 +1,6 @@
+DECLARE
 
-
-   n NUMBER := -15;
+   n NUMBER := 15;
    i NUMBER;
    j NUMBER;
    k NUMBER;
