@@ -1,0 +1,63 @@
+DECLARE
+
+file_handle UTL_FILE.FILE_TYPE;
+
+file_contents VARCHAR(32767);
+
+BEGIN
+
+  file_handle := UTL_FILE.FOPEN('MY_DIR', 'My_File.xml', 'R');
+
+ 
+
+LOOP
+
+  BEGIN
+
+    UTL_FILE.GET_LINE(file_handle, file_contents);
+
+    DBMS_OUTPUT.PUT_LINE(file_contents);
+
+EXCEPTION
+
+    WHEN NO_DATA_FOUND THEN
+
+      EXIT;
+
+    WHEN OTHERS THEN
+
+      DBMS_OUTPUT.PUT_LINE('Error reading a content line.');
+
+    END;  
+
+END LOOP;
+
+ 
+
+  UTL_FILE.FCLOSE(file_handle);
+
+EXCEPTION
+
+  WHEN UTL_FILE.INVALID_PATH THEN
+
+    DBMS_OUTPUT.PUT_LINE('Invalid directory or file not found.');
+
+  WHEN UTL_FILE.INVALID_MODE THEN
+
+    DBMS_OUTPUT.PUT_LINE('Invalid file mode.');
+
+  WHEN UTL_FILE.INVALID_FILEHANDLE THEN
+
+    DBMS_OUTPUT.PUT_LINE('Invalid file handle.'); 
+
+  WHEN UTL_FILE.READ_ERROR THEN
+
+    DBMS_OUTPUT.PUT_LINE('Error reading the file.');     
+
+  WHEN OTHERS THEN
+
+    DBMS_OUTPUT.PUT_LINE('An error occured: ' || SQLERRM);
+
+END;
+
+/
