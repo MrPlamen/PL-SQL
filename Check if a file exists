@@ -1,5 +1,3 @@
---
-
 SELECT CASE dbms_lob.fileexists(bfilename('FCC12_SOMETHING_DIR', 'myfile.xml'))
 
 WHEN 0 THEN 'File does not exist or it is not accessible'
