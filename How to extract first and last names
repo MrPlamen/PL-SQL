@@ -1,0 +1,12 @@
+SUBSTR(full_name, 1, INSTR(full_name, ' ') - 1)  
+
+/*full_name is the column that contains the full name.
+INSTR(full_name, ' ') is used to find the position of the first space character in the full name.
+SUBSTR(full_name, 1, INSTR(full_name, ' ') - 1) extracts the substring from the beginning of the full name up to one character before the first space, effectively giving you the first name.*/
+
+
+SUBSTR(full_name, INSTR(full_name, ' ', -1) + 1) 
+
+/*full_name is the column that contains the full name.
+INSTR(full_name, ' ', -1) is used to find the position of the last space character in the full name by searching from the end of the string.
+SUBSTR(full_name, INSTR(full_name, ' ', -1) + 1) extracts the substring starting from one character after the last space, effectively giving you the last name.*/
