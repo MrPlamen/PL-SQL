@@ -1,0 +1,11 @@
+DECLARE
+
+o_content VARCHAR(32767);
+
+BEGIN
+
+  sp_xml_read(o_content);
+
+  dbms_output.put_line(o_content);
+
+END;
