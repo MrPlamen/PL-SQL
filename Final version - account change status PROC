@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE sp_remove_dormant_status(p_user_id IN VARCHAR2, p_acc IN VARCHAR2)
+CREATE OR REPLACE PROCEDURE sp_remove_SECRET_status(p_user_id IN VARCHAR2, p_acc IN VARCHAR2)
 
 AS
 
@@ -28,7 +28,7 @@ BEGIN
 
                 INTO l_acc
 
-                FROM FCC12.STTM_CUST_ACCOUNT
+                FROM SCHEMA.STTM_CUST_ACCOUNT
 
                 WHERE cust_ac_no = p_acc;
 
@@ -44,7 +44,7 @@ BEGIN
 
              ELSE         
 
-                UPDATE FCC12.STTB_ACCOUNT
+                UPDATE SCHEMA.STTB_ACCOUNT
 
                 SET AC_STAT_DORMANT = 'N'
 
@@ -58,7 +58,7 @@ BEGIN
 
                
 
-                UPDATE FCC12.STTM_CUST_ACCOUNT
+                UPDATE SCHEMA.STTM_CUST_ACCOUNT
 
                 SET AC_STAT_DORMANT = 'N'
 
@@ -88,7 +88,7 @@ BEGIN
 
  
 
-        INSERT INTO PVPLAMEN.FIB_IT_REMOVE_DORMANT_LOG
+        INSERT INTO PVPLAMEN.FIB_IT_remove_SECRET_LOG
 
         VALUES (SYSDATE, p_user_id, p_acc, 'SUCCESS');
 
@@ -102,7 +102,7 @@ BEGIN
 
             ROLLBACK;
 
-            INSERT INTO PVPLAMEN.FIB_IT_REMOVE_DORMANT_LOG
+            INSERT INTO PVPLAMEN.FIB_IT_remove_SECRET_LOG
 
             VALUES (SYSDATE, p_user_id, p_acc, 'FAILED: ' || l_err);
 
@@ -120,4 +120,4 @@ BEGIN
 
             ROLLBACK;
 
-END sp_remove_dormant_status;
+END sp_remove_SECRET_status;
