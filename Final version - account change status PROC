@@ -28,7 +28,7 @@ BEGIN
 
                 INTO l_acc
 
-                FROM SCHEMA.STTM_CUST_ACCOUNT
+                FROM SCHEMA.MYTABLE1
 
                 WHERE cust_ac_no = p_acc;
 
@@ -58,7 +58,7 @@ BEGIN
 
                
 
-                UPDATE SCHEMA.STTM_CUST_ACCOUNT
+                UPDATE SCHEMA.MYTABLE1
 
                 SET AC_STAT_DORMANT = 'N'
 
