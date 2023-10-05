@@ -44,7 +44,7 @@ BEGIN
 
              ELSE         
 
-                UPDATE SCHEMA.STTB_ACCOUNT
+                UPDATE SCHEMA.MYTABLE2
 
                 SET AC_STAT_DORMANT = 'N'
 
