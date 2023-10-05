@@ -46,11 +46,11 @@ BEGIN
 
                 UPDATE SCHEMA.MYTABLE2
 
-                SET AC_STAT_DORMANT = 'N'
+                SET AC_STATUS = 'N'
 
                 WHERE AC_GL_NO = p_acc
 
-                AND AC_STAT_DORMANT = 'Y';
+                AND AC_STATUS = 'Y';
 
               
 
@@ -60,11 +60,11 @@ BEGIN
 
                 UPDATE SCHEMA.MYTABLE1
 
-                SET AC_STAT_DORMANT = 'N'
+                SET AC_STATUS = 'N'
 
                 WHERE cust_ac_no = p_acc
 
-                AND AC_STAT_DORMANT = 'Y';
+                AND AC_STATUS = 'Y';
 
               
 
