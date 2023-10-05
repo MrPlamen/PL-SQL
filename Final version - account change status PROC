@@ -1,0 +1,123 @@
+CREATE OR REPLACE PROCEDURE sp_remove_dormant_status(p_user_id IN VARCHAR2, p_acc IN VARCHAR2)
+
+AS
+
+    ex1 EXCEPTION;
+
+    l_err VARCHAR2(1000) := 'NO SUCH ACCOUNT OR OTHERS';
+
+    l_rowcount NUMBER;
+
+    l_acc VARCHAR2(20);
+
+BEGIN
+
+    BEGIN
+
+        IF p_acc IS NULL THEN
+
+            l_err := 'ACCOUNT IS NULL';
+
+            RAISE ex1;
+
+        ELSE
+
+         
+
+                SELECT cust_ac_no
+
+                INTO l_acc
+
+                FROM FCC12.STTM_CUST_ACCOUNT
+
+                WHERE cust_ac_no = p_acc;
+
+               
+
+             IF l_acc IS NULL THEN
+
+                RAISE ex1;
+
+                RETURN;
+
+                 
+
+             ELSE         
+
+                UPDATE FCC12.STTB_ACCOUNT
+
+                SET AC_STAT_DORMANT = 'N'
+
+                WHERE AC_GL_NO = p_acc
+
+                AND AC_STAT_DORMANT = 'Y';
+
+              
+
+                l_rowcount := SQL%ROWCOUNT;
+
+               
+
+                UPDATE FCC12.STTM_CUST_ACCOUNT
+
+                SET AC_STAT_DORMANT = 'N'
+
+                WHERE cust_ac_no = p_acc
+
+                AND AC_STAT_DORMANT = 'Y';
+
+              
+
+                l_rowcount := l_rowcount + SQL%ROWCOUNT;
+
+               
+
+                IF l_rowcount < 2 THEN
+
+                   ROLLBACK; 
+
+                   l_err := 'THE ACCOUNT IS ALREADY NOT DORMANT';     
+
+                   RAISE ex1;                  
+
+                END IF;
+
+            END IF;          
+
+        END IF;
+
+ 
+
+        INSERT INTO PVPLAMEN.FIB_IT_REMOVE_DORMANT_LOG
+
+        VALUES (SYSDATE, p_user_id, p_acc, 'SUCCESS');
+
+        COMMIT;
+
+ 
+
+    EXCEPTION
+
+        WHEN OTHERS THEN
+
+            ROLLBACK;
+
+            INSERT INTO PVPLAMEN.FIB_IT_REMOVE_DORMANT_LOG
+
+            VALUES (SYSDATE, p_user_id, p_acc, 'FAILED: ' || l_err);
+
+            COMMIT;
+
+            RAISE ex1;
+
+    END;
+
+ 
+
+    EXCEPTION
+
+        WHEN ex1 THEN
+
+            ROLLBACK;
+
+END sp_remove_dormant_status;
