@@ -1,0 +1,21 @@
+DECLARE
+  -- Declare a nested table type for a number array
+  TYPE NumberArray IS TABLE OF NUMBER;
+
+  -- Declare a variable of the number array type
+  myNumbers NumberArray;
+
+BEGIN
+  -- Initialize the number array
+  myNumbers := NumberArray(1, 2, 3, 4, 5);
+
+  -- Access and manipulate the elements
+  DBMS_OUTPUT.PUT_LINE('First element: ' || myNumbers(1));
+  DBMS_OUTPUT.PUT_LINE('Number of elements: ' || myNumbers.COUNT);
+
+  -- Iterate through the array
+  FOR i IN myNumbers.FIRST .. myNumbers.LAST LOOP
+    DBMS_OUTPUT.PUT_LINE('Element ' || i || ': ' || myNumbers(i));
+  END FOR;
+END;
+/
