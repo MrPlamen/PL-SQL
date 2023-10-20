@@ -1,0 +1,23 @@
+CREATE OR REPLACE PROCEDURE PVPLAMEN.PROCEDURE_TEST AS
+  test_acc PVPLAMEN.PROCEDURE_TEST_ACCOUNTS.CUST_NO%TYPE;
+
+  -- Declare a cursor variable (cursor with return type)
+  cursor_accounts SYS_REFCURSOR;
+
+BEGIN
+  -- Open the cursor
+  OPEN cursor_accounts FOR
+    SELECT CUST_NO
+    FROM PVPLAMEN.PROCEDURE_TEST_ACCOUNTS;
+
+  -- Loop through the results
+  LOOP
+    FETCH cursor_accounts INTO test_acc;
+    EXIT WHEN cursor_accounts%NOTFOUND; -- Exit the loop when there are no more rows
+    dbms_output.put_line(test_acc);
+  END LOOP;
+
+  -- Close the cursor
+  CLOSE cursor_accounts;
+END;
+/
