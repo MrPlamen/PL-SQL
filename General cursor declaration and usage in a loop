@@ -1,0 +1,25 @@
+DECLARE
+  -- Declare a cursor to select data from the table
+  CURSOR cursor_name IS
+    SELECT column_name
+    FROM your_table;
+  
+  -- Declare a variable to hold the column value
+  column_value your_table.column_name%TYPE;
+BEGIN
+  -- Open the cursor
+  OPEN cursor_name;
+  
+  -- Start the loop
+  FOR cursor_record IN cursor_name LOOP
+    -- Assign the column value to the variable
+    column_value := cursor_record.column_name;
+    
+    -- Do something with the column value
+    DBMS_OUTPUT.PUT_LINE('Value: ' || column_value);
+  END LOOP;
+  
+  -- Close the cursor
+  CLOSE cursor_name;
+END;
+/
