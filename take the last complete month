@@ -1,0 +1,16 @@
+DECLARE
+   current_date DATE;
+   start_of_previous_month DATE;
+   end_of_previous_month DATE;
+BEGIN
+
+   current_date := SYSDATE;
+
+   start_of_previous_month := ADD_MONTHS(TRUNC(current_date, 'MM'), -1);
+
+   end_of_previous_month := LAST_DAY(ADD_MONTHS(TRUNC(current_date, 'MM'), -1));
+
+   DBMS_OUTPUT.PUT_LINE('Start of Previous Month: ' || TO_CHAR(start_of_previous_month, 'YYYY-MM-DD'));
+   DBMS_OUTPUT.PUT_LINE('End of Previous Month: ' || TO_CHAR(end_of_previous_month, 'YYYY-MM-DD'));
+END;
+/
