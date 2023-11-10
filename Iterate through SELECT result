@@ -1,0 +1,23 @@
+DECLARE
+
+a VARCHAR2(40);
+b VARCHAR2(40);
+
+
+BEGIN
+
+FOR item IN (select * from MyTableContainingCUST_NOandCUST_NAMEScolumns where rownum <=6)  
+
+LOOP
+
+  a := item.cust_no;
+
+  b := item.cust_names;
+
+  dbms_output.put_line(a || b);
+
+END LOOP; 
+
+  
+
+END;
