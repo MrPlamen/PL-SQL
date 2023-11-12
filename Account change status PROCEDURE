@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE sp_remove_SECRET_status(p_user_id IN VARCHAR2, p_acc IN VARCHAR2)
+
 
 AS
 
