@@ -1,0 +1,40 @@
+DECLARE
+    xml_output XMLTYPE;
+BEGIN
+    SELECT XMLElement("Employees",
+               XMLAgg(
+                 XMLElement("Employee",
+                   XMLForest(
+                     e.EmployeeID AS "EmployeeID",
+                     e.FirstName AS "FirstName",
+                     e.LastName AS "LastName",
+                     e.Salary AS "Salary"
+                   )
+                 )
+               )
+             )
+    INTO xml_output
+    FROM Employees e;
+
+    -- Displaying the XML
+    dbms_output.put_line(xml_output.getClobVal());
+END;
+/
+
+--RESULT:
+
+<Employees>
+    <Employee>
+        <EmployeeID>1</EmployeeID>
+        <FirstName>John</FirstName>
+        <LastName>Doe</LastName>
+        <Salary>50000</Salary>
+    </Employee>
+    <Employee>
+        <EmployeeID>2</EmployeeID>
+        <FirstName>Jane</FirstName>
+        <LastName>Smith</LastName>
+        <Salary>60000</Salary>
+    </Employee>
+    <!-- More Employee nodes if there are more records in the table -->
+</Employees>
