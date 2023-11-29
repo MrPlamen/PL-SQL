@@ -1,0 +1,211 @@
+DECLARE
+
+    dept_list CLOB;
+
+BEGIN
+
+    SELECT XMLSERIALIZE(
+
+        CONTENT XMLELEMENT(
+
+            NAME "cesop:CESOP",
+
+            XMLATTRIBUTES('4.0' AS "version", 'urn:eu:taxud:commontypes:v1' AS "xmlns:cm", 'urn:ec.europa.eu:taxud:fiscalis:cesop:v1' AS "xmlns:cesop"),
+
+            XMLAGG(
+
+                XMLELEMENT(NAME "cesop:MessageSpec",
+
+                   XMLForest(
+
+                     'BG' AS "cesop:TransmittingCountry",
+
+                     'PMT' AS "cesop:MessageType",   -- PMT = Payment Data
+
+                     'CESOP100' AS "cesop:MessageTypeIndic",    -- CESOP100 = new data
+
+                     'TODO' AS "cesop:MessageRefId",  -- UUID version 4
+
+                       XMLForest(
+
+                         '3' AS "cesop:Quarter",
+
+                         '2023' AS "cesop:Year"
+
+                       ) "cesop:ReportingPeriod",
+
+                     SYSTIMESTAMP AS "cesop:Timestamp"
+
+                  )               
+
+               )
+
+            ),
+
+            XMLAGG(
+
+                XMLELEMENT(NAME "cesop:PaymentDataBody",
+
+                XMLELEMENT(NAME "cesop:ReportingPSP",
+
+                   XMLELEMENT(
+
+                     NAME "cesop:PSPId",
+
+                       XMLATTRIBUTES('BIC' AS "PSPIdType"),
+
+                       'BIGKBGSFXXX'   -- ПИБ BIC
+
+                     ),
+
+                   XMLELEMENT(
+
+                     NAME "cesop:Name",
+
+                      XMLATTRIBUTES('LEGAL' AS "nameType"),
+
+                      'BIGBANK AS - BRANCH BULGARIA'   -- ПИБ (пълно име на банката)
+
+                     )
+
+                   ),
+
+                XMLELEMENT(NAME "cesop:ReportedPayee",
+
+                   XMLELEMENT(
+
+                     NAME "cesop:Name",
+
+                       XMLATTRIBUTES('BUSINESS' AS "nameType"),
+
+                      'Lefevre GIE'
+
+                   ),
+
+                   XMLELEMENT(
+
+                     NAME "cesop:Country",
+
+                      'BE'
+
+                   ),
+
+                   XMLELEMENT(
+
+                      NAME "cesop:Address",
+
+                        XMLATTRIBUTES('CESOP303' AS "legalAddressType"),
+
+                      XMLForest(
+
+                      'BE' AS "cm:CountryCode",
+
+                      'Chaussee de Wavre 393, 4460 Bierset' AS "cm:AddressFree"
+
+                      )
+
+                   ),
+
+                   XMLELEMENT(NAME "cesop:TAXIdentification",
+
+                      XMLELEMENT(NAME "cesop:VATId",
+
+                      XMLATTRIBUTES('BG' AS "issuedBy"),                    
+
+                      '112233445566')
+
+                   ),
+
+                   XMLELEMENT(NAME "cesop:AccountIdentifier"),    -- The IBAN of the payee's payment account
+
+                   XMLELEMENT(NAME "cesop:ReportedTransaction",
+
+                      XMLATTRIBUTES('false' AS "IsRefund"),      -- IsRefund е optional, по default е false
+
+                         XMLELEMENT(NAME "cesop:TransactionIdentifier", 'BG-01-0101'),
+
+                         XMLELEMENT(NAME "cesop:DateTime",
+
+                         XMLATTRIBUTES('CESOP701' AS "transactionDateType"),                    
+
+                         trim(SYSTIMESTAMP)),
+
+                         XMLELEMENT(NAME "cesop:Amount",
+
+                         XMLATTRIBUTES('EUR' AS "currency"),                    
+
+                         '100.00'),
+
+                         XMLELEMENT(NAME "cesop:PaymentMethod",
+
+                            XMLELEMENT(NAME "cm:PaymentMethodType", 'Bank transfer')
+
+                      ),
+
+                      XMLELEMENT(NAME "cesop:InitiatedAtPhysicalPremisesOfMerchant", 'false'),   -- Винаги ще е false?
+
+                      XMLELEMENT(NAME "cesop:PayerMS",
+
+                        XMLATTRIBUTES('IBAN' AS "PayerMSSource"),
+
+                      'BG'),                                          -- trim from IBAN?
+
+                      XMLELEMENT(NAME "cesop:PSPRole",
+
+                         XMLELEMENT(NAME "cm:PSPRoleType", 'Money Transfer operator')   -- commontypes
+
+                      )                       
+
+                   ),
+
+                   XMLELEMENT(NAME "cesop:Representative",
+
+                      XMLELEMENT(
+
+                        NAME "cesop:RepresentativeId",
+
+                          XMLATTRIBUTES('BIC' AS "PSPIdType"),
+
+                         'BUINBGSFXXX'
+
+                      ),
+
+                      XMLELEMENT(
+
+                        NAME "cesop:Name",
+
+                          XMLATTRIBUTES('LEGAL' AS "nameType"),
+
+                         'ALLIANZ BANK BULGARIA AD'
+
+                      )
+
+                   ),
+
+                   XMLELEMENT(NAME "cesop:DocSpec",
+
+                      XMLELEMENT(NAME "cm:DocTypeIndic", 'CESOP1'),   -- CESOP1 = New data (commontypes nomenclature)
+
+                      XMLELEMENT(NAME "cm:DocRefId", 'TODO')   -- "Shall not be used in the scope of CESOP" ?
+
+                   )                
+
+                )
+
+             )
+
+          )
+
+       )
+
+    )
+
+    INTO dept_list
+
+    FROM dual;
+
+   
+
+    dbms_output.put_line(dept_list);
+
+END;
