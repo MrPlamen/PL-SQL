@@ -1,0 +1,11 @@
+DECLARE
+    xml1 XMLTYPE := XMLTYPE('<data><item>Item 1</item></data>');
+    xml2 XMLTYPE := XMLTYPE('<data><item>Item 2</item></data>');
+    concatenated_xml XMLTYPE;
+BEGIN
+    SELECT XMLTYPE(
+        XMLQuery('concat($xml1, $xml2)' PASSING xml1 AS "xml1", xml2 AS "xml2" RETURNING CONTENT)
+    ) INTO concatenated_xml FROM dual;
+
+    DBMS_OUTPUT.PUT_LINE(concatenated_xml.getClobVal());
+END;
