@@ -1,0 +1,15 @@
+-- Replace FILE_DIR with '/debug' for example
+
+
+DECLARE
+  file_handle UTL_FILE.FILE_TYPE;
+BEGIN
+  -- Open the file for writing
+  file_handle := UTL_FILE.FOPEN('FILE_DIR', 'file_name.txt', 'W');
+
+  -- Write content to the file
+  UTL_FILE.PUT_LINE(file_handle, 'Your content here.');
+
+  -- Close the file
+  UTL_FILE.FCLOSE(file_handle);
+END;
