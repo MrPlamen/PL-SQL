@@ -1,3 +1,4 @@
+DECLARE
 
     dept_list CLOB;
 
