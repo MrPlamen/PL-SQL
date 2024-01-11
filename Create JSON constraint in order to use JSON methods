@@ -1,0 +1,10 @@
+DROP TABLE sales_report;
+/
+
+CREATE TABLE sales_report(sales_rep_id number(6,0) PRIMARY KEY,
+                          sales_rep_fname VARCHAR2(20) ,
+                          sales_rep_lname VARCHAR2(20),
+                          order_details VARCHAR2(4000));
+/
+
+ALTER TABLE sales_report ADD CONSTRAINT ensure_json CHECK(order_details IS JSON);
