@@ -1,3 +1,3 @@
-SELECT *
+
 FROM (SELECT t.*, ROWNUM AS rnum FROM DMC.D6_FGVB t)
 WHERE rnum = 2;
