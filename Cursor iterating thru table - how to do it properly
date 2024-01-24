@@ -1,0 +1,21 @@
+BEGIN
+
+    FOR I IN (SELECT trim(personal_id) pers_id,CUSTOMER_NO,('BG'||cust_ac_no) iban,branch_code FROM SCHEMA.TABLE)      -- The rows in the SELECT must be as many as the variables called below
+
+        loop
+
+            update MYSCHEMA.TABLE p
+
+                set p.cust_no=i.CUSTOMER_NO,
+
+                p.IBAN=i.iban,
+
+                p.branch_code=i.branch_code
+
+                where trim(nvl(p.egn, p.bulstat))=i.pers_id;
+
+                commit;
+
+        end loop;
+
+end;
