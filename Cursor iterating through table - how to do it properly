@@ -1,6 +1,6 @@
 BEGIN
 
-    FOR I IN (SELECT trim(personal_id) pers_id,CUSTOMER_NO,('BG'||cust_ac_no) iban,branch_code FROM SCHEMA.TABLE)      -- The rows in the SELECT must be as many as the variables called below
+    FOR I IN (SELECT trim(personal_id) pers_id,CUSTOMER_NO,('BG'||cust_ac_no) iban,branch_code FROM SCHEMA.TABLE)      
 
         loop
 
