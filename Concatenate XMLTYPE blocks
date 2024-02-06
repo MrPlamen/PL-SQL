@@ -1,4 +1,4 @@
-DECLARE
+
     xml1 XMLTYPE := XMLTYPE('<data><item>Item 1</item></data>');
     xml2 XMLTYPE := XMLTYPE('<data><item>Item 2</item></data>');
     concatenated_xml XMLTYPE;
