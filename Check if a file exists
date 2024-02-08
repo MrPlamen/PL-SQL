@@ -6,4 +6,4 @@ WHEN 1 THEN 'File exists'
 
 END AS check_if_exist
 
-from dual;
+
