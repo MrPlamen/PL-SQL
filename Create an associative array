@@ -1,0 +1,40 @@
+DECLARE
+    TYPE KeyValuePairs IS TABLE OF NUMBER INDEX BY VARCHAR2(1); -- Define the collection type
+    
+    -- Declare a variable of type KeyValuePairs
+    alphabet_values KeyValuePairs;
+BEGIN
+    -- Initialize the collection with key-value pairs
+    alphabet_values('A') := 10;
+    alphabet_values('B') := 11;
+    alphabet_values('C') := 12;
+    alphabet_values('D') := 13;
+    alphabet_values('E') := 14;
+    alphabet_values('F') := 15;
+    alphabet_values('G') := 16;
+    alphabet_values('H') := 17;
+    alphabet_values('I') := 18;
+    alphabet_values('J') := 19;
+    alphabet_values('K') := 20;
+    alphabet_values('L') := 21;
+    alphabet_values('M') := 22;
+    alphabet_values('N') := 23;
+    alphabet_values('O') := 24;
+    alphabet_values('P') := 25;
+    alphabet_values('Q') := 26;
+    alphabet_values('R') := 27;
+    alphabet_values('S') := 28;
+    alphabet_values('T') := 29;
+    alphabet_values('U') := 30;
+    alphabet_values('V') := 31;
+    alphabet_values('W') := 32;
+    alphabet_values('X') := 33;
+    alphabet_values('Y') := 34;
+    alphabet_values('Z') := 35;
+    
+    -- Accessing values from the collection
+    DBMS_OUTPUT.PUT_LINE('Value corresponding to "A" is: ' || alphabet_values('A'));
+    DBMS_OUTPUT.PUT_LINE('Value corresponding to "B" is: ' || alphabet_values('B'));
+    -- Similarly, you can access values for other letters
+END;
+/
