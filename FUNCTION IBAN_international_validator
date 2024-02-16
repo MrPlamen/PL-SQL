@@ -1,0 +1,107 @@
+CREATE OR REPLACE FUNCTION IBAN_international_validator (p_iban IN VARCHAR2) RETURN BOOLEAN
+AS
+
+/*-----------------------------------------------FUNCTION--DESCRIPTION-------------------------------------------------
+The IBAN must be valid according to the following algorithm:
+- Move the four initial characters to the end of the string.
+- Replace each letter in the string with two digits, thereby expanding the string, where A=10, B=11, ..., Z=35.
+- Interpret the string as a decimal integer and compute the remainder of that number on division by 97.
+If the remainder equals to 1, the IBAN is valid.
+  -----
+However, this is not enough - it must satisfy the following criteria as well:
+ 
+The structure must be a sequence of:
+- 2 upper case letters between A and Z, representing the ISO-3166 two letter country code where the account is located;
+- 2 digits between 0 and 9, representing a check digit;
+- 10 to 30 digits between 0 and 9 and/or letters between A and Z (upper and/or lower case).
+
+--> The function accepts an IBAN-candidate string and returns TRUE when the IBAN is valid. FALSE when it is not.
+
+----------------------------------------------------------------------------------------------------------------------*/
+
+TYPE KeyValuePairs IS TABLE OF NUMBER INDEX BY VARCHAR2(1);
+alphabet_values KeyValuePairs;
+
+
+truncated_iban VARCHAR2(120) := SUBSTR(p_iban, 5);
+new_iban VARCHAR2(120);
+numerical_iban VARCHAR2(100) := '';
+current_char VARCHAR2(1);
+v_remainder NUMBER;
+
+
+BEGIN
+
+ 
+    new_iban := truncated_iban || SUBSTR(p_iban, 1, 4);
+
+ 
+    alphabet_values('A') := 10;
+    alphabet_values('B') := 11;
+    alphabet_values('C') := 12;
+    alphabet_values('D') := 13;
+    alphabet_values('E') := 14;
+    alphabet_values('F') := 15;
+    alphabet_values('G') := 16;
+    alphabet_values('H') := 17;
+    alphabet_values('I') := 18;
+    alphabet_values('J') := 19;
+    alphabet_values('K') := 20;
+    alphabet_values('L') := 21;
+    alphabet_values('M') := 22;
+    alphabet_values('N') := 23;
+    alphabet_values('O') := 24;
+    alphabet_values('P') := 25;
+    alphabet_values('Q') := 26;
+    alphabet_values('R') := 27;
+    alphabet_values('S') := 28;
+    alphabet_values('T') := 29;
+    alphabet_values('U') := 30;
+    alphabet_values('V') := 31;
+    alphabet_values('W') := 32;
+    alphabet_values('X') := 33;
+    alphabet_values('Y') := 34;
+    alphabet_values('Z') := 35;
+
+ 
+IF LENGTH(p_iban) > 34 OR LENGTH(p_iban) < 10
+  OR SUBSTR(p_iban, 1, 1) NOT IN ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')
+  OR SUBSTR(p_iban, 2, 1) NOT IN ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')
+  OR SUBSTR(p_iban, 3, 1) NOT IN (0,1,2,3,4,5,6,7,8,9)
+  OR SUBSTR(p_iban, 4, 1) NOT IN (0,1,2,3,4,5,6,7,8,9)
+THEN
+  RETURN FALSE;
+ELSE 
+  FOR i IN 1..LENGTH(new_iban) LOOP
+    current_char := SUBSTR(new_iban, i, 1);
+    IF current_char IN ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z') THEN
+      numerical_iban := numerical_iban || alphabet_values(current_char);
+    ELSE
+      numerical_iban := numerical_iban || current_char;
+    END IF;
+  END LOOP;
+
+
+  v_remainder := REMAINDER(numerical_iban, 97);
+ 
+
+  IF v_remainder = 1 THEN
+    RETURN TRUE;
+  ELSE
+    RETURN FALSE;
+  END IF;
+END IF;
+
+
+END;
+
+------------------------------------------------------------------------------------------
+--Calling the function:
+
+BEGIN
+  IF pvplamen.IBAN_international_validator('enter the IBAN here') THEN
+    dbms_output.put_line('VALID');
+  ELSE
+    dbms_output.put_line('NOT VALID');
+  END IF;
+END;
