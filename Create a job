@@ -1,4 +1,4 @@
-BEGIN
+
   -- Define the job
   DBMS_SCHEDULER.CREATE_JOB (
     job_name        => 'MY_JOB',
