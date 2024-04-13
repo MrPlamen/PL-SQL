@@ -16,4 +16,3 @@ BEGIN
     
     -- return the total sales
     RETURN l_total_sales;
-END;
