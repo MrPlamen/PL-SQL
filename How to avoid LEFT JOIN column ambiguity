@@ -1,0 +1,26 @@
+DECLARE
+    v_ref_no_a table_a.ref_no%TYPE;
+    v_data_a table_a.data_a%TYPE;
+BEGIN
+    FOR item IN (
+        SELECT
+            a.ref_no AS ref_no_a,          -- Use aliases
+            a.data_a,
+            b.ref_no AS ref_no_b,
+            b.data_b,
+            c.ref_no AS ref_no_c,
+            c.data_c
+        FROM table_a a
+        LEFT JOIN table_b b ON a.ref_no = b.ref_no
+        LEFT JOIN table_c c ON a.ref_no = c.ref_no
+    ) LOOP
+        -- Accessing ref_no from table_a using the alias ref_no_a
+        v_ref_no_a := item.ref_no_a;
+        v_data_a := item.data_a;
+
+        -- Output the values for demonstration purposes
+        DBMS_OUTPUT.PUT_LINE('Ref No A: ' || v_ref_no_a || ', Data A: ' || v_data_a);
+    END LOOP;
+END;
+/
+
