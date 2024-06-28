@@ -1,0 +1,2 @@
+SELECT TO_CHAR(transaction_amount, '9999999999.99') AS formatted_amount    -- It ensures we have UP TO 10 leading numbers, a dot delimiter and exactly 2 numbers after the decimal point
+FROM your_table;
