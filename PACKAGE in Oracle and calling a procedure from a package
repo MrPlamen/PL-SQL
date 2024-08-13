@@ -1,4 +1,4 @@
-/////////////// Package Specification /////////////
+///////////////*Package Specification*/////////////
 
 
 CREATE OR REPLACE PACKAGE my_package IS
@@ -7,7 +7,7 @@ CREATE OR REPLACE PACKAGE my_package IS
 END my_package;
 
 
-/////////////// Package Body /////////////
+///////////////*Package Body*/////////////
 
 CREATE OR REPLACE PACKAGE BODY my_package IS
    PROCEDURE proc1 IS
@@ -22,7 +22,7 @@ CREATE OR REPLACE PACKAGE BODY my_package IS
 END my_package;
 
 
-/////////////// Calling a specific procedure from a package /////////////
+///////////////*Calling a specific procedure from a package*/////////////
 
 BEGIN
    my_package.proc1;
