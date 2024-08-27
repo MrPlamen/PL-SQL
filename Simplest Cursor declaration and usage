@@ -1,0 +1,13 @@
+DECLARE
+
+CURSOR my_cursor IS
+SELECT column FROM table
+WHERE condition;
+
+BEGIN
+
+  FOR item IN my_cursor LOOP
+    dbms_output.put_line(item.column);
+  END LOOP;
+
+END;
