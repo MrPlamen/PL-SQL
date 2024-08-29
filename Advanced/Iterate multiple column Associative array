@@ -1,3 +1,6 @@
+-- To handle an associative array with multiple columns in PL/SQL, you would typically use a record type in combination with an associative array. 
+-- This allows you to treat each row in the associative array like a row in a table, with multiple columns.
+
 DECLARE
   -- Define a record type with four columns
   TYPE emp_record IS RECORD (
