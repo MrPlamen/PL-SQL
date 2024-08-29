@@ -1,0 +1,37 @@
+DECLARE
+  -- Define a record type with four columns
+  TYPE emp_record IS RECORD (
+    emp_id    NUMBER,
+    emp_name  VARCHAR2(50),
+    dept_name VARCHAR2(50),
+    salary    NUMBER
+  );
+
+  -- Define an associative array type with emp_record as the data type
+  TYPE emp_table_type IS TABLE OF emp_record INDEX BY VARCHAR2(20);
+
+  -- Declare a variable of the associative array type
+  emp_table emp_table_type;
+
+BEGIN
+  -- Populate the associative array with key-value pairs (using a string key)
+  emp_table('E001') := emp_record(101, 'John Doe', 'HR', 50000);
+  emp_table('E002') := emp_record(102, 'Jane Smith', 'IT', 60000);
+  emp_table('E003') := emp_record(103, 'Jim Brown', 'Finance', 55000);
+  emp_table('E004') := emp_record(104, 'Jake White', 'IT', 60000);
+
+  -- Loop through the associative array
+  FOR key IN emp_table.FIRST .. emp_table.LAST LOOP
+    IF emp_table.EXISTS(key) THEN
+      -- Check specific conditions for the first three columns
+      IF emp_table(key).emp_name = 'Jane Smith' AND 
+         emp_table(key).dept_name = 'IT' AND 
+         emp_table(key).salary = 60000 THEN
+        -- Output the 4th column (salary) if conditions are met
+        DBMS_OUTPUT.PUT_LINE('The salary is: ' || emp_table(key).salary);
+      END IF;
+    END IF;
+  END LOOP;
+
+END;
+/
