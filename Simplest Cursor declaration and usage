@@ -10,4 +10,3 @@ BEGIN
     dbms_output.put_line(item.column);
   END LOOP;
 
-END;
