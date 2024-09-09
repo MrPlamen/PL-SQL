@@ -2,4 +2,3 @@ INSERT ALL
     INTO employees (employee_id, first_name, last_name, hire_date) VALUES (4, 'Alice', 'Brown', TO_DATE('2023-04-05', 'YYYY-MM-DD'))
     INTO employees (employee_id, first_name, last_name, hire_date) VALUES (5, 'Bob', 'White', TO_DATE('2023-05-15', 'YYYY-MM-DD'))
     INTO employees (employee_id, first_name, last_name, hire_date) VALUES (6, 'Charlie', 'Black', TO_DATE('2023-06-25', 'YYYY-MM-DD'))
-SELECT * FROM dual;
